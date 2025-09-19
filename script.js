@@ -34,3 +34,11 @@ function scoreupdation(){
      const blueballs = document.querySelectorAll('.blueball').length;
      score.textContent = `${blueballs}`;
 }
+
+function status(){
+    const blueballs = document.querySelectorAll('.blueball').length;
+    const all = document.querySelectorAll('.ball').length;
+    if(all > 0 && blueballs === 0){
+        endgame();
+    }
+}
