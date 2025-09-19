@@ -42,3 +42,13 @@ function status(){
         endgame();
     }
 }
+function startgame(){
+   start.style.display = 'none';
+    reset.style.display = 'inline-block';
+    score.textContent = '0';
+    time.textContent = '30';
+    end.style.display = 'none';
+    const gameduration = setInterval(ballcreation , 30000);
+}
+
+start.addEventListener('click' , startgame);
