@@ -39,7 +39,7 @@ function status(){
     const blueballs = document.querySelectorAll('.blueball').length;
     const all = document.querySelectorAll('.ball').length;
     if(all > 0 && blueballs === 0){
-        endgame();
+        endgame("lose");
     }
 }
 function startgame(){
@@ -48,7 +48,22 @@ function startgame(){
     score.textContent = '0';
     time.textContent = '30';
     end.style.display = 'none';
-    const gameduration = setInterval(ballcreation , 30000);
+    const ballduration = setInterval(ballcreation , 1500);
+    const gameduration = setInterval(() => {
+        endgame("win");
+    }, 30000);
+
+    let timeleft = 30;
+    const countdown = setInterval(() => {
+        timeleft--;
+        time.textContent = `${timeleft}`;
+        status();
+        if(timeleft <= 0){
+            clearInterval(countdown);
+            clearInterval(ballduration);
+            clearInterval(gameduration);
+        }
+    } , 1000);
 }
 
 start.addEventListener('click' , startgame);
