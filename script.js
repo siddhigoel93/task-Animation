@@ -19,11 +19,18 @@ function ballcreation(){
     setTimeout(() => {
         ball.classList.replace('blueball' , 'redball');
     } , 5000);
+
     ball.addEventListener('click' , () => {
         if(ball.classList.contains('blueball')){
             ball.remove();
+            scoreupdation();
         }
     });
 
-    
+
+}
+
+function scoreupdation(){
+     const blueballs = document.querySelectorAll('.blueball').length;
+     score.textContent = `${blueballs}`;
 }
