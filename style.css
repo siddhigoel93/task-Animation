@@ -78,10 +78,15 @@ body.main a{
     border: black 2px solid;
     border-radius: 5px;
 }
-body.firework{
+body.firework {
     margin: 0;
     text-align: center;
     overflow: hidden;
-    background-color: black;
     height: 100vh;
+}
+body.firework h1,h3{
+    color: black;
+    font-size: xx-large;
+    font-weight: bold;
+    margin-top: 20px;
 }
