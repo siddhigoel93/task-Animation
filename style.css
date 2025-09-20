@@ -84,7 +84,7 @@ body.firework {
     overflow: hidden;
     height: 100vh;
 }
-body.firework h1,h3{
+body.firework h3{
     color: black;
     font-size: xx-large;
     font-weight: bold;
