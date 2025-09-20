@@ -9,24 +9,40 @@ let scorecount = 0;
 let ballduration;
 let countdown;
 let colorchange;
-
+let gameon = false;
 function ballcreation(){
     const ball = document.createElement('div');
     ball.classList.add('ball' , 'blueball');
 
-    const x = Math.random() * (arena.clientWidth - 30);
-    const y = Math.random() * (arena.clientHeight - 30);
+    const x = Math.random() * (arena.clientWidth - 70);
+    let y = Math.random() * (arena.clientHeight - 70);
     ball.style.left = `${x}px`;
     ball.style.top = `${y}px`;
     arena.appendChild(ball);
 
+    let vy = 0;
+    const gravity = 0.5;
+    const damping = 0.7;
+
+    function animate() {
+        vy += gravity;
+        y += vy;
+        if (y + 70 > arena.clientHeight) {
+            y = arena.clientHeight - 70;
+            vy = -vy * damping;
+        }
+        ball.style.top = `${y}px`;
+        requestAnimationFrame(animate);
+    }
+
     colorchange = setTimeout(() => {
         ball.classList.replace('blueball' , 'redball');
+        animate();
         gamestatus();
     } , 2000);
 
     ball.addEventListener('click' , () => {
-        if(ball.classList.contains('blueball')){
+        if(gameon && ball.classList.contains('blueball')){
             scorecount++;
             score.textContent = `${scorecount}`;
             ball.remove();
@@ -45,6 +61,7 @@ function gamestatus(){
     }
 }
 function startgame(){
+    gameon = true;
    start.style.display = 'none';
     reset.style.display = 'inline-block';
     score.textContent = '0';
@@ -67,7 +84,7 @@ function startgame(){
     } }, 1000);
 }
 function endgame(){
-
+    gameon = false;
     clearInterval(ballduration);
     clearInterval(countdown);
     clearTimeout(colorchange);
