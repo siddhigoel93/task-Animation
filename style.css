@@ -1,4 +1,4 @@
-body{
+body.game{
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -45,4 +45,19 @@ button{
 }
 .redball{
     background-color: red;
+}
+
+#firework, #game{
+    margin: 20px;
+    text-decoration: none;
+    color: white;
+}
+body.main{
+    margin: 0;
+    overflow: hidden;
+    background-color: purple;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
 }
