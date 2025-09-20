@@ -7,8 +7,8 @@ const end = document.getElementById('end');
 
 let scorecount = 0;
 let ballduration;
-let gameduration;
 let countdown;
+let colorchange;
 
 function ballcreation(){
     const ball = document.createElement('div');
@@ -20,10 +20,10 @@ function ballcreation(){
     ball.style.top = `${y}px`;
     arena.appendChild(ball);
 
-    setTimeout(() => {
+    colorchange = setTimeout(() => {
         ball.classList.replace('blueball' , 'redball');
         gamestatus();
-    } , 5000);
+    } , 2000);
 
     ball.addEventListener('click' , () => {
         if(ball.classList.contains('blueball')){
@@ -41,7 +41,7 @@ function gamestatus(){
     const blueballs = document.querySelectorAll('.blueball').length;
     const all = document.querySelectorAll('.ball').length;
     if(all > 0 && blueballs === 0){
-        endgame("lose");
+        endgame();
     }
 }
 function startgame(){
@@ -53,10 +53,8 @@ function startgame(){
     ballduration = setInterval(() =>{
         ballcreation();
         gamestatus();
-        }, 1500);
-    gameduration = setTimeout(() => {
-        endgame("win");
-    }, 30000);
+        }, 1000);
+    
 
     let timeleft = 30;
     countdown = setInterval(() => {
@@ -64,34 +62,24 @@ function startgame(){
         time.textContent = `${timeleft}`;
         if(timeleft <= 0){
             clearInterval(countdown);
-            if(scorecount === 0){
-                endgame("lose");
-           }
-           else{
-            endgame("win");
-           }
+            time.textContent = '0';
+            endgame();
     } }, 1000);
 }
-function endgame(result){
+function endgame(){
 
     clearInterval(ballduration);
-    clearTimeout(gameduration);
     clearInterval(countdown);
-    arena.innerHTML = '';
-
-    if(result === "lose"){
-        end.innerHTML= `Game over !! your final score is ${score.textContent}` ;
-    }
-    else{
-        end.innerHTML= `Congratulations !! Your score is ${score.textContent}` ;
-    }
-    start.style.display = 'inline-block';
-    reset.style.display = 'none';
+    clearTimeout(colorchange);
+    time.textContent = '0';
+    end.innerHTML= `Game over !! your final score is ${score.textContent}` ;
+    reset.style.display = 'inline-block';
     end.style.display = 'block';
 }
 function resetgame(){
     clearInterval(ballduration);
-    clearInterval(gameduration);
+    clearInterval(countdown);
+    clearTimeout(colorchange);
     arena.innerHTML = '';
     start.style.display = 'inline-block';
     reset.style.display = 'none';
