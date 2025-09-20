@@ -3,6 +3,7 @@ const ctx = canvas.getContext('2d');
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
+const balls = []
 class Circle{
     constructor(x, y, color) {
         this.x = x;
@@ -24,3 +25,11 @@ class Circle{
         this.y += this.vy;
     }
 }
+
+canvas.addEventListener('click', (e) => {
+    const colors = ['#ff4d4d', '#4dff4d', '#4d4dff', '#ffff4d', '#ff4dff', '#4dffff'];
+    for (let i = 0; i < 100; i++) {
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        balls.push(new Circle(e.x, e.y, color));
+    }
+});
