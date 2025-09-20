@@ -20,7 +20,7 @@ body{
 h1 , h3 , h4{
     margin: 5px;
 }
-#reset{
+#reset , #end{
     display: none;
 }
 button{

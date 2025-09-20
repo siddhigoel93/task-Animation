@@ -6,6 +6,8 @@ const time = document.getElementById('time');
 const end = document.getElementById('end');
 const fscore = document.getElementById('fscore');
 
+let scorecount = 0;
+
 function ballcreation(){
     const ball = document.createElement('div');
     ball.classList.add('ball' , 'blueball');
@@ -22,17 +24,14 @@ function ballcreation(){
 
     ball.addEventListener('click' , () => {
         if(ball.classList.contains('blueball')){
+            scorecount++;
+            score.textContent = `${scorecount}`;
             ball.remove();
-            scoreupdation();
+            
         }
     });
 
 
-}
-
-function scoreupdation(){
-     const blueballs = document.querySelectorAll('.blueball').length;
-     score.textContent = `${blueballs}`;
 }
 
 function status(){
@@ -57,13 +56,33 @@ function startgame(){
     const countdown = setInterval(() => {
         timeleft--;
         time.textContent = `${timeleft}`;
-        status();
         if(timeleft <= 0){
             clearInterval(countdown);
-            clearInterval(ballduration);
+            clearInterval(ballcreation);
             clearInterval(gameduration);
         }
     } , 1000);
 }
+function endgame(result){
+    clearInterval(ballcreation);
+    clearInterval(gameduration);
+    if(result === "lose"){
+        end.innerHTML= "Game over !! your final score is"`${score.textContent}` ;
+    }
+    else{
+        end.innerHTML= "Congratulations !! Your score is"`${score.textContent}` ;
+    }
+    start.style.display = 'inline-block';
+}
+function resetgame(){
+    clearInterval(ballcreation);
+    clearInterval(gameduration);
+    start.style.display = 'inline-block';
+    reset.style.display = 'none';
+    score.textContent = '0';
+    time.textContent = '30';
+    end.style.display = 'none';
+}
 
 start.addEventListener('click' , startgame);
+reset.addEventListener('click' , resetgame);
