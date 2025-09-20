@@ -4,9 +4,11 @@ const reset = document.getElementById('reset');
 const score = document.getElementById('score');
 const time = document.getElementById('time');
 const end = document.getElementById('end');
-const fscore = document.getElementById('fscore');
 
 let scorecount = 0;
+let ballduration;
+let gameduration;
+let countdown;
 
 function ballcreation(){
     const ball = document.createElement('div');
@@ -20,6 +22,7 @@ function ballcreation(){
 
     setTimeout(() => {
         ball.classList.replace('blueball' , 'redball');
+        gamestatus();
     } , 5000);
 
     ball.addEventListener('click' , () => {
@@ -34,7 +37,7 @@ function ballcreation(){
 
 }
 
-function status(){
+function gamestatus(){
     const blueballs = document.querySelectorAll('.blueball').length;
     const all = document.querySelectorAll('.ball').length;
     if(all > 0 && blueballs === 0){
@@ -47,36 +50,49 @@ function startgame(){
     score.textContent = '0';
     time.textContent = '30';
     end.style.display = 'none';
-    const ballduration = setInterval(ballcreation , 1500);
-    const gameduration = setInterval(() => {
+    ballduration = setInterval(() =>{
+        ballcreation();
+        gamestatus();
+        }, 1500);
+    gameduration = setTimeout(() => {
         endgame("win");
     }, 30000);
 
     let timeleft = 30;
-    const countdown = setInterval(() => {
+    countdown = setInterval(() => {
         timeleft--;
         time.textContent = `${timeleft}`;
         if(timeleft <= 0){
             clearInterval(countdown);
-            clearInterval(ballcreation);
-            clearInterval(gameduration);
-        }
-    } , 1000);
+            if(scorecount === 0){
+                endgame("lose");
+           }
+           else{
+            endgame("win");
+           }
+    } }, 1000);
 }
 function endgame(result){
-    clearInterval(ballcreation);
-    clearInterval(gameduration);
+
+    clearInterval(ballduration);
+    clearTimeout(gameduration);
+    clearInterval(countdown);
+    arena.innerHTML = '';
+
     if(result === "lose"){
-        end.innerHTML= "Game over !! your final score is"`${score.textContent}` ;
+        end.innerHTML= `Game over !! your final score is ${score.textContent}` ;
     }
     else{
-        end.innerHTML= "Congratulations !! Your score is"`${score.textContent}` ;
+        end.innerHTML= `Congratulations !! Your score is ${score.textContent}` ;
     }
     start.style.display = 'inline-block';
+    reset.style.display = 'none';
+    end.style.display = 'block';
 }
 function resetgame(){
-    clearInterval(ballcreation);
+    clearInterval(ballduration);
     clearInterval(gameduration);
+    arena.innerHTML = '';
     start.style.display = 'inline-block';
     reset.style.display = 'none';
     score.textContent = '0';
